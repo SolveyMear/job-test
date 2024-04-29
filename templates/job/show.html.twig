@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Job{% endblock %}
+
+{% block body %}
+    <h1>Job</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ job.id }}</td>
+            </tr>
+            <tr>
+                <th>Position</th>
+                <td>{{ job.position }}</td>
+            </tr>
+            <tr>
+                <th>Contract</th>
+                <td>{{ job.contract ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ job.location }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ job.description }}</td>
+            </tr>
+            <tr>
+                <th>RequirementContent</th>
+                <td>{{ job.requirementContent }}</td>
+            </tr>
+            <tr>
+                <th>Requirements</th>
+                <td>{{ job.requirements ? job.requirements|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>RoleContent</th>
+                <td>{{ job.roleContent }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ job.roles ? job.roles|join(', ') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ job.createdAt ? job.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Apply</th>
+                <td>{{ job.apply }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_job_index') }}">back to list</a>
+
+    <a href="{{ path('app_job_edit', {'id': job.id}) }}">edit</a>
+
+    {{ include('job/_delete_form.html.twig') }}
+{% endblock %}
