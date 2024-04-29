@@ -1,0 +1,9 @@
+#ajout Cyril pour pouvoir tester l'ECF front sur l'API Symfony en cours de dev
+
+nelmio_cors:
+  paths:
+    "^/":
+      allow_origin: ["*"]
+      allow_methods: ["GET"]
+      allow_headers: ["X-Requested-With", "Content-Type", "Authorization"]
+      max_age: 3600
