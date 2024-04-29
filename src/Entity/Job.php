@@ -29,13 +29,13 @@ class Job
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $requirementContent = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?array $requirements = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $roleContent = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?array $roles = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
