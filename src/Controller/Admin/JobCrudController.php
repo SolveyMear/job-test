@@ -6,9 +6,12 @@ use App\Entity\Job;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
 class JobCrudController extends AbstractCrudController
 {
@@ -21,18 +24,17 @@ class JobCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('position'),
-            BooleanField::new('contract'),
-            TextField::new('location'),
-            ArrayField::new('requirements'),
-            //TextEditorField::new('description'),
+            BooleanField::new('contract')->onlyOnForms(),
+            CountryField::new('location')->showFlag(false),
+            TextareaField::new('requirementContent')->hideOnIndex(),
+            ArrayField::new('requirements')->hideOnIndex(),
+            TextareaField::new('roleContent')->hideOnIndex(),
+            ArrayField::new('roles')->hideOnIndex(),
+            TextareaField::new('description'),
+            UrlField::new('apply'),
+
         ];
     }
-
-    //Full texts
-    // id 	position 	contract 	location 	description 	requirement_content 	requirements
-    //(DC2Type:array) 	role_content 	roles
-    //(DC2Type:array) 	created_at 	apply
 
 }
