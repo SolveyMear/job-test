@@ -11,19 +11,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+use Symfony\Component\VarDumper\VarDumper;
+
 /* Ajouts Cyril pour que la requête www.monsite/job/id renvoie un job en Json */
 // gestion des réponses d'erreur du serveur en json :
 use Symfony\Component\HttpFoundation\JsonResponse;
 /* Ajouts Cyril pour que la requête www.monsite/job/id renvoie un job en Json */
 
-#[Route('/job')]
+/* #[Route('/job')] */
+
 class JobController extends AbstractController
 {
 
     /* Ajouts Cyril pour que la requête www.monsite/job/id renvoie un job en Json */
 
 
-    #[Route('/{id}', name: 'app_job_json', methods: ['GET'])]
+    #[Route('/job/{id}', name: 'app_job_json', methods: ['GET'])]
     public function jsonJob(Job $job = null): Response
     {
 
@@ -72,6 +75,63 @@ class JobController extends AbstractController
         }
     }
 
+
+
+    #[Route('/jobs', name: 'app_jobs_json', methods: ['GET'])]
+    public function jsonJobs(JobRepository $jobs = null, Request $request): Response
+    {
+
+        /*
+    {
+        return ($this->repository ??= $this->resolveRepository())
+            ->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+*/
+        $offset = $request->query->get('offset');
+        $offset !== null ? $offset : 0;
+
+        $jobsRepoResponse = $jobs->findBy(
+            array(), // Aucun critère de recherche supplémentaire, nous voulons tous les résultats
+            array('createdAt' => 'DESC'), // Trier par la colonne 'date' de manière décroissante
+            12, // Nombre maximum de résultats à récupérer
+            $offset // Décalage (offset), commençant à 0 pour obtenir les 12 éléments suivants
+        );
+
+        $jobsData = array();
+
+        foreach ($jobsRepoResponse as $job) {
+
+            $jobObject = [
+                "company" => $job->getUser()->getCompanyName(),
+                "contract" => $job->isContract() ? "Full Time" : "Part Time",
+                "id" => $job->getId(),
+                "location" => $job->getLocation(),
+                "logo" => $job->getUser()->getLogoUrl(),
+                "logoBackground" => $job->getUser()->getLogoBackground(),
+                "position" => $job->getPosition(),
+                "postedAt" => ($job->getCreatedAt()->getTimestamp()) * 1000
+            ];
+
+            array_push($jobsData, $jobObject);
+        };
+
+        $responseData = [
+            "jobs" => $jobsData,
+            "total" => $jobs->count()
+        ];
+
+
+        $jobResponse = json_encode($responseData);
+
+        $response = new Response($jobResponse);
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+}
+    
     /* Fin ajouts Cyril pour job id en en Json */
 
     // Suppression de toutes les routes qui suivent car on ne passera par aucune pour modifier les jobs : tout se fera avec easyadmin !
@@ -144,4 +204,3 @@ class JobController extends AbstractController
     }
 
  */
-}
