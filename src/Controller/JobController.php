@@ -60,10 +60,10 @@ class JobController extends AbstractController
                 "logoBackground" => "hsl (125, 50%, 50%)",
                 "website" => "https://www.google.fr",
                 // Encore à implémenter (soit du relationnel, soit pas encore fait car upload d'images à gérer) :
-                /*"company" => $job->getCompany(),*/
-                /*"logo" => $job->getLogo(),*/
-                /* "logoBackground" => $job->getLogoBackground(), */
-                /* "website" => $job->getWebsite(), */
+                "company" => $job->getUser()->getCompanyName(),
+                "logo" => $job->getUser()->getLogoUrl(),
+                "logoBackground" => $job->getUser()->getLogoBackground(),
+                "website" => $job->getUser()->getWebsite(),
             ];
 
             $jobResponse = json_encode($jobObject);

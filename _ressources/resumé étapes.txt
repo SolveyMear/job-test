@@ -220,3 +220,16 @@ return new RedirectResponse($this->urlGenerator->generate('admin'));
 symfony make:security
 symfony console make:registration-form
 symfony console make:admin:crud
+
+
+- Modification de JobController.php, en y oncluant les relations :
+
+exemple :
+
+                "company" => $job->getUser()->getCompanyName(),
+                "logo" => $job->getUser()->getLogoUrl(),
+                "logoBackground" => $job->getUser()->getLogoBackground(),
+                "website" => $job->getUser()->getWebsite(),
+
+                
+
