@@ -10,8 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Intl\Countries;
 
-use Symfony\Component\VarDumper\VarDumper;
 
 /* Ajouts Cyril pour que la requête www.monsite/job/id renvoie un job en Json */
 // gestion des réponses d'erreur du serveur en json :
@@ -47,7 +47,7 @@ class JobController extends AbstractController
                 "contract" => $job->isContract() ? "Full Time" : "Part Time",
                 "description" => $job->getDescription(),
                 "id" => $job->getId(),
-                "location" => $job->getLocation(),
+                "location" => Countries::getName($job->getLocation()),
                 "position" => $job->getPosition(),
                 "postedAt" => ($job->getCreatedAt()->getTimestamp()) * 1000, //Le timestamp original de l'API devjobs est un timestamp Unix en secondes, tandis que le second timestamp "1708728585000" est en millisecondes, on multiplie donc par 1000.
                 "role" => [
@@ -81,21 +81,15 @@ class JobController extends AbstractController
     public function jsonJobs(JobRepository $jobs = null, Request $request): Response
     {
 
-        /*
-    {
-        return ($this->repository ??= $this->resolveRepository())
-            ->findBy($criteria, $orderBy, $limit, $offset);
-    }
-
-*/
-        $offset = $request->query->get('offset');
-        $offset !== null ? $offset : 0;
+        //$offset = $request->query->get('offset');
+        //$offset !== null ? $offset : 0;
+        $offset = $request->query->get('offset') ? $request->query->get('offset') : 0;
 
         $jobsRepoResponse = $jobs->findBy(
             array(), // Aucun critère de recherche supplémentaire, nous voulons tous les résultats
             array('createdAt' => 'DESC'), // Trier par la colonne 'date' de manière décroissante
             12, // Nombre maximum de résultats à récupérer
-            $offset // Décalage (offset), commençant à 0 pour obtenir les 12 éléments suivants
+            $offset // Décalage (offset)
         );
 
         $jobsData = array();
@@ -106,7 +100,7 @@ class JobController extends AbstractController
                 "company" => $job->getUser()->getCompanyName(),
                 "contract" => $job->isContract() ? "Full Time" : "Part Time",
                 "id" => $job->getId(),
-                "location" => $job->getLocation(),
+                "location" => Countries::getName($job->getLocation()),
                 "logo" => $job->getUser()->getLogoUrl(),
                 "logoBackground" => $job->getUser()->getLogoBackground(),
                 "position" => $job->getPosition(),
@@ -130,11 +124,143 @@ class JobController extends AbstractController
 
         return $response;
     }
+
+
+    #[Route('/jobs/search', name: 'app_jobs_search_json', methods: ['GET'])]
+    public function jsonJobsSerach(JobRepository $jobs = null, Request $request): Response
+    {
+
+
+        $text = $request->query->get('text') ? '%' . $request->query->get('text') . '%' : null;
+        $location = $request->query->get('location') ? $request->query->get('location') : null;
+        $fulltime = $request->query->get('fulltime') ? 1 : null;
+
+        $filters = array();
+
+        $text ? $filters['position'] = $text : null;
+        $location ? $filters['location'] = $location : null;
+        $fulltime ? $filters['contract'] = 1 : null;
+
+        $offset = $request->query->get('offset') ? $request->query->get('offset') : 0;
+
+        // Construction de la requête en fonction des filtres
+        $queryBuilder = $jobs->createQueryBuilder('job');
+        $queryBuilder->leftJoin('job.user', 'user'); // Jointure entre la table 'job' et 'user'
+        if ($text) {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->like('job.description', ':text'),
+                    $queryBuilder->expr()->like('job.position', ':text'),
+                    $queryBuilder->expr()->like('user.CompanyName', ':text') // Ajout de la recherche dans 'company_name'
+                )
+            )->setParameter('text', $text);
+        }
+        if ($location) {
+            $queryBuilder->andWhere('job.location = :location')
+                ->setParameter('location', $location);
+        }
+        if ($fulltime) {
+            $queryBuilder->andWhere('job.contract = :fulltime')
+                ->setParameter('fulltime', $fulltime);
+        }
+
+        // Comptage des résultats
+        $jobsRepoResponseLength = count(
+            $queryBuilder
+                ->setFirstResult(0)
+                ->getQuery()
+                ->getResult()
+        );
+
+        // Exécution de la requête avec les filtres
+        $jobsRepoResponse = $queryBuilder
+            ->orderBy('job.createdAt', 'DESC')
+            ->setMaxResults(12)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+
+
+
+        $jobsData = array();
+
+        foreach ($jobsRepoResponse as $job) {
+
+            $jobObject = [
+                "company" => $job->getUser()->getCompanyName(),
+                "contract" => $job->isContract() ? "Full Time" : "Part Time",
+                "id" => $job->getId(),
+                "location" => Countries::getName($job->getLocation()),
+                "logo" => $job->getUser()->getLogoUrl(),
+                "logoBackground" => $job->getUser()->getLogoBackground(),
+                "position" => $job->getPosition(),
+                "postedAt" => ($job->getCreatedAt()->getTimestamp()) * 1000
+            ];
+
+            array_push($jobsData, $jobObject);
+        };
+
+        $responseData = [
+            "jobs" => $jobsData,
+            "total" => $jobsRepoResponseLength
+        ];
+
+
+        $jobResponse = json_encode($responseData);
+
+        $response = new Response($jobResponse);
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
 }
     
     /* Fin ajouts Cyril pour job id en en Json */
-
+    
     // Suppression de toutes les routes qui suivent car on ne passera par aucune pour modifier les jobs : tout se fera avec easyadmin !
+
+
+
+
+
+// Mémo de mes expérimentations :
+
+/*         $text = $request->query->get('text') ? '%' . $request->query->get('text') . '%' : null;
+        $location = $request->query->get('location') ? $request->query->get('location') : null;
+        $fulltime = $request->query->get('fulltime') ? 1 : null;
+
+        $filters = array();
+
+        $text ? $filters['position'] = $text : null;
+        $location ? $filters['location'] = $location : null;
+        $fulltime ? $filters['contract'] = 1 : null;
+
+        $offset = $request->query->get('offset') ? $request->query->get('offset') : 0;
+
+
+        $jobsRepoResponse = $jobs->findBy( */
+            /*
+            array(                
+                'description' => $text,
+                'location' => $location,
+                'contract' => $fulltime
+                 ),
+            */
+  /*           $filters,
+            array('createdAt' => 'DESC'), // Trier par la colonne 'date' de manière décroissante
+            12, // Nombre maximum de résultats à récupérer
+            $offset // Décalage (offset)
+        ); */
+
+
+
+
+
+
+
+
+
 
 
     /*     
