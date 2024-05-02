@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 02, 2024 at 09:03 AM
+-- Generation Time: May 02, 2024 at 09:35 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.17
 
@@ -66,7 +66,7 @@ CREATE TABLE `job` (
 --
 
 INSERT INTO `job` (`id`, `position`, `contract`, `location`, `description`, `requirement_content`, `requirements`, `role_content`, `roles`, `created_at`, `apply`, `user_id`) VALUES
-(1, 'Frontend Developer', 1, 'US', 'We are looking for a skilled Frontend Developer to join our team.', 'We are seeking a candidate with expertise in HTML, CSS, and JavaScript.', '[\"HTML\", \"CSS\", \"JavaScript\"]', 'The role involves developing and maintaining user interfaces for web applications.', '[\"Develop user interfaces\", \"Optimize performance\", \"Collaborate with designers\"]', '2023-08-15 10:30:00', 'http://example.com/apply', 0),
+(1, 'Frontend Developer', 1, 'US', 'We are looking for a skilled Frontend Developer to join our team.', 'We are seeking a candidate with expertise in HTML, CSS, and JavaScript.', '[\"HTML\", \"CSS\", \"JavaScript\"]', 'The role involves developing and maintaining user interfaces for web applications.', '[\"Develop user interfaces\", \"Optimize performance\", \"Collaborate with designers\"]', '2023-08-15 10:30:00', 'http://example.com/apply', 2),
 (2, 'Backend Developer', 1, 'GB', 'We are seeking an experienced Backend Developer to work on our cutting-edge projects.', 'Candidates should have a strong background in server-side programming and database management.', '[\"PHP\", \"Python\", \"MySQL\"]', 'Responsibilities include developing server-side logic, ensuring high performance, and managing databases.', '[\"Develop server-side logic\", \"Optimize database queries\", \"Implement security measures\"]', '2023-10-20 14:45:00', 'http://example.com/apply', 0),
 (3, 'Full Stack Developer', 1, 'CA', 'We are hiring a Full Stack Developer to contribute to the development of our web applications.', 'Ideal candidates should have proficiency in both frontend and backend technologies.', '[\"JavaScript\", \"Node.js\", \"React\", \"MongoDB\"]', 'The role involves designing user interactions, developing server-side logic, and ensuring responsiveness.', '[\"Design user interactions\", \"Develop server-side logic\", \"Ensure responsiveness\"]', '2023-11-05 09:15:00', 'http://example.com/apply', 0),
 (4, 'UI/UX Designer', 0, 'FR', 'We are looking for a creative UI/UX Designer to join our design team and turn our software into easy-to-use products.', 'Candidates should have a strong portfolio of successful UI/UX projects and proficiency in design software.', '[\"UI design\", \"UX design\", \"Adobe XD\"]', 'Responsibilities include gathering user requirements, designing graphic elements, and building navigation components.', '[\"Gather user requirements\", \"Design graphic elements\", \"Build navigation components\"]', '2024-01-12 16:20:00', 'http://example.com/apply', 0),
@@ -143,10 +143,7 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`, `company_name`, `logo_ba
 (2, 'info@cybernetic.com', '[\"ROLE_USER\"]', '$2y$13$PYAJPwmE2strp1ayz8Rm4.MNsL4k8aPCBDkBrWv2iQowzsS4XoCmi', 'Cybernetic Solutions', 'hsl(240, 80%, 60%)', 'https://www.cybernetic.com', 'https://www.cybernetic.com/logo.png'),
 (3, 'hello@infinitech.io', '[\"ROLE_USER\"]', '$2y$13$8m.zA8Hsrwl7yS2XsmmVHOMPeyBTYvnCRabmNxDL2THFT0ABwsWKS', 'InfiniTech', 'hsl(30, 90%, 70%)', 'https://www.infinitech.io', 'https://www.infinitech.io/logo.png'),
 (4, 'contact@quantumsoft.com', '[\"ROLE_USER\"]', 'quantumpass', 'QuantumSoft', 'hsl(120, 60%, 40%)', 'https://www.quantumsoft.com', 'https://www.quantumsoft.com/logo.png'),
-(5, 'contact@nexgenlabs.net', '[\"ROLE_ADMIN\"]', '$2y$13$Dx8MuDr74.IMMNrFRg/Cbeo.5bqA7Yyc.cSFiCm3rIqidQsIB7XSC', 'NexGen Labs', 'hsl(300, 70%, 50%)', 'https://www.nexgenlabs.net', 'https://www.nexgenlabs.net/logo.png'),
-(6, 'maboitededev@test.fr', '[]', '$2y$13$drVB22np/kFm8mA6SGE3wuN.IWeM3/X2Va7/KtIOuK/z8okbpLoLG', NULL, NULL, NULL, NULL),
-(7, 'mycompany@test.fr', '[]', '$2y$13$T.Tx4phm6uuNwU5yWl6ote7vUcb8AMA338Rt8YBGwrUtKq7xcInAS', NULL, NULL, NULL, NULL),
-(8, 'myothercompany@test.fr', '[]', '$2y$13$zTyIZGISybuauKBqWje/1uam0LpKwLNgalp391neixmw/fK8fYDS2', NULL, NULL, NULL, NULL);
+(5, 'contact@nexgenlabs.net', '[\"ROLE_ADMIN\"]', '$2y$13$Dx8MuDr74.IMMNrFRg/Cbeo.5bqA7Yyc.cSFiCm3rIqidQsIB7XSC', 'NexGen Labs', 'hsl(300, 70%, 50%)', 'https://www.nexgenlabs.net', 'https://www.nexgenlabs.net/logo.png');
 
 --
 -- Indexes for dumped tables
