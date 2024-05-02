@@ -44,6 +44,10 @@ class Job
     #[ORM\Column(type: Types::TEXT)]
     private ?string $apply = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Jobs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +169,18 @@ class Job
     public function setApply(string $apply): static
     {
         $this->apply = $apply;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
