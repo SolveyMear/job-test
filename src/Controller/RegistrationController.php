@@ -8,6 +8,7 @@ use App\Security\AppCustomAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -24,6 +25,18 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+
+            /** @var UploadedFile $file */
+            $file = $form->get("imageFile")->getData();
+
+            if($file !== null) {
+                //on recupere l'email et un algo pour remplacer le nom du fichier et qu'il soit unique//
+                $fileName = hash("sha1",$form->get("email")->getData()).".".$file->getClientOriginalExtension();
+                $file->move($this->getParameter("kernel.project_dir")."/public/uploads/files", $fileName);
+                $user->setLogoUrl($fileName);
+            }
+
+
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
