@@ -55,10 +55,6 @@ class JobController extends AbstractController
                     "content" => $job->getRequirementContent(),
                     "items" => $job->getRequirements(),
                 ],
-                "company" => "Dev and Co",
-                "logo" => "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg",
-                "logoBackground" => "hsl (125, 50%, 50%)",
-                "website" => "https://www.google.fr",
                 // Encore à implémenter (soit du relationnel, soit pas encore fait car upload d'images à gérer) :
                 "company" => $job->getUser()->getCompanyName(),
                 "logo" => $job->getUser()->getLogoUrl(),

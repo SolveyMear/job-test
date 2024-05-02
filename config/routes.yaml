@@ -7,3 +7,7 @@ controllers:
 dashboard:
   path: /admin
   controller: App\Controller\Admin\DashboardController::index
+
+home:
+  path: /
+  controller: App\Controller\DevjobsController::index
