@@ -1,0 +1,222 @@
+* = sur projet collaboratif, quand certaines des tâches précédentes ont été réalisées par d'autres sur un projet qu'on rappatrie
+
+ÉTAPES
+
+
+- initialisation projet symfony :
+
+symfony new my_project_directory --version="7.0.*" --webapp
+(site web classique)
+
+OU
+
+symfony new my_project_directory --version="7.0.*"
+(api / microservice)
+
+
+- git init
+
+
+* git clone [url du repo]
+* composer i
+(installation des dépendances)
+
+* composer dump-env local
+(permet d'avoir un fichier .env.local.php qui crée une surcouche locale du .env)
+
+
+Config de la database :
+- fichier .env
+-* fichier .env.local.php (modifier 'APP_ENV' => 'local', pour 'APP_ENV' => 'dev',)
+
+
+
+Démarrer la database locale (laragon, wamp, mamp...) puis le serveur symfony:
+-* Symfony serve
+
+
+Création des entités : 
+
+- User pour les entreprises
+- Country pour les pays (pas fait dans l'entrainement mais à faire ECF ?)
+- Job pour les jobs
+
+Relations (à faire plus tard mais pour info):
+User -> Job (one to many)
+Country -> Job (one to many)
+
+
+-* symfony console doctrine:database:create
+// création de la bdd
+
+- symfony console make:migration
+// prépa des fichiers de migration qui vont contenir les instructions de modification de la bdd
+
+-* symfony console doctrine:migrations:migrate
+// éxecution des modifications
+
+
+Peupler Bdd (script sql, chatGPT, mockaroo...)
+
+
+Faire un CRUD pour jobs
+- composer require symfony/maker-bundle --dev
+- symfony make:crud
+
+le reste en easyadmin
+
+Installer easyadmin
+- composer require easycorp/easyadmin-bundle
+- symfony console make:admin:dashboard
+- symfony console make:admin:crud (le faire et pour Job et pour User)
+
+- symfony console assets:install
+
+Dans Admin/DashBoardController.php (nom par défaut) : ajouter
+
+- use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+
+
+- Dans config/routes.yaml ajouter à la fin :
+
+dashboard:
+  path: /admin
+  controller: App\Controller\Admin\DashboardController::index
+
+
+
+- Dans l'entité Job, enlever le type array sur les colonnes Role et Requirements :
+    
+	Après correction ils doivent ressembler à ça :
+	
+	#[ORM\Column(nullable: true)]
+    private ?array $requirements = null;
+	
+	#[ORM\Column(nullable: true)]
+    private ?array $roles = null;
+
+- Dans src/Controller/Admin/DashboardController.php :
+
+	Commenter ou virer //return parent::index();
+	
+	et décommenter et modifier ainsi les lignes suivantes :
+	
+	$adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+    return $this->redirect($adminUrlGenerator->setController(JobCrudController::class)->generateUrl());
+	
+	
+Dans JobCrudController modidifer la public function configureFields :
+
+
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id'),
+            TextField::new('position'),
+            BooleanField::new('contract'),
+            TextField::new('location'),
+            ArrayField::new('requirements'),
+            //TextEditorField::new('description'),
+        ];
+    }
+	
+	
+	
+	
+- Pour la sérialisation (job to json) qui permet qu'une requete www.monsite/job?id=15 renvoie l'objet json correspondant à l'annonce dont l'id est 15:
+
+-> Ajouter dans JobController :
+
+use Symfony\Component\Serializer\SerializerInterface;
+
+-> puis, au début de la class JobController :
+   
+    private $serializer;
+
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
+-> puis, au début des méthodes :
+
+    #[Route('/{id}', name: 'app_job_json', methods: ['GET'])]
+    public function jsonJob(Job $job): Response
+    {
+        $jsonData = $this->serializer->serialize($job, 'json');
+        
+        $response = new Response($jsonData);
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+	
+
+
+Ce qui suit sert à autoriser en mode dev les requetes CORS multi-origin (interrogation de l'API depuis un serveur tiers)
+
+...à faire uniquement pour pouvoir tester l'ECF Front avec l'API Symfony en mode dev :
+
+installer le bundle Symfony nelmio/cors-bundle :
+
+- composer require nelmio/cors-bundle
+
+- créer config/packages/dev/nelmio_cors.yaml
+
+Et coller dedans :
+
+nelmio_cors:
+    paths:
+        '^/':
+            allow_origin: ['*']
+            allow_methods: ['GET']
+            allow_headers: ['X-Requested-With', 'Content-Type', 'Authorization']
+            max_age: 3600
+
+Pour que cela ne marche qu'en mode dev, il faut également commenter tout le contenu de job-test\config\packages\nelmio_cors.yaml (si on veut aussi que les requetes depuis un serveur tiers marchent en prod : faire correspondre son contenu à celui de config/packages/dev/nelmio_cors.yaml)
+			
+(Redémarrer Symfony serve pour que le changement soit effectif)
+
+
+- Dans JobController modifier la route /{id} pour qu'elle renvoie le json du job indiqué dans la requête. Ne pas oublier la gestion des erreurs (voir modifs dans le fichier JobController.php)
+
+
+Faire make:user (dire oui à stocker les data de user dans la db)
+symfony console make:entity (user) pour ajouter les autres champs
+Ajouter la relation avec la class jobs (ici, onetomany)
+Faire la migration
+Peupler la table avec des données fake (mémo : role au format JSON).
+Exemple :
+
+CREATE TABLE `user` (
+  `id` int NOT NULL,
+  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `roles` json NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo_background` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `website` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `roles`, `password`, `company_name`, `logo_background`, `website`, `logo_url`) VALUES
+(1, 'contact@techco.com', '[\"ROLE_ADMIN\"]', 'motdepasse123', 'TechCo', 'hsl(210, 70%, 50%)', 'https://www.techco.com', 'https://www.techco.com/logo.png'),
+(2, 'info@cybernetic.com', '[\"ROLE_USER\"]', 'cyberpass', 'Cybernetic Solutions', 'hsl(240, 80%, 60%)', 'https://www.cybernetic.com', 'https://www.cybernetic.com/logo.png'),
+(3, 'hello@infinitech.io', '[\"ROLE_USER\"]', 'infinipass', 'InfiniTech', 'hsl(30, 90%, 70%)', 'https://www.infinitech.io', 'https://www.infinitech.io/logo.png'),
+(4, 'contact@quantumsoft.com', '[\"ROLE_USER\"]', 'quantumpass', 'QuantumSoft', 'hsl(120, 60%, 40%)', 'https://www.quantumsoft.com', 'https://www.quantumsoft.com/logo.png'),
+(5, 'contact@nexgenlabs.net', '[\"ROLE_ADMIN\"]', 'nexgenpass', 'NexGen Labs', 'hsl(300, 70%, 50%)', 'https://www.nexgenlabs.net', 'https://www.nexgenlabs.net/logo.png');
+
+
+
+ligne 52 de AppCustomAuthenticator.php :
+Indiquer une route de redirection après l'inscription, exemple :
+return new RedirectResponse($this->urlGenerator->generate('admin'));
+
+symfony make:security
+symfony console make:registration-form
+symfony console make:admin:crud

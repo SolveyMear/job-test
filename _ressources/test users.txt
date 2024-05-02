@@ -1,0 +1,9 @@
+Test users :
+
+
+User :
+info@cybernetic.com / cyberpass
+
+
+Admin :
+contact@nexgenlabs.net / nexgenpass
