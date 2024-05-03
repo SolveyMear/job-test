@@ -1,0 +1,10 @@
+cyril.gauthier.dev@gmail.com
+ECFBackEndJob654*$$
+
+sql11.freesqldatabase.com
+bdd : sql11703473
+user : sql11703473
+Database password: HPd7QHKKYW
+Port number: 3306
+
+phpmyadmin : https://www.phpmyadmin.co/
