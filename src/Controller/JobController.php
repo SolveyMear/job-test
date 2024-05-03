@@ -83,7 +83,11 @@ class JobController extends AbstractController
 
         //$offset = $request->query->get('offset');
         //$offset !== null ? $offset : 0;
-        $offset = $request->query->get('offset') ? $request->query->get('offset') : 0;
+
+        //$offset = $request->query->get('offset') ? $request->query->get('offset') : 0;
+        $offsetString = $request->query->get('offset');
+        // Convert the offset string to an integer, providing a default value if it's not a valid integer
+        $offset = intval($offsetString);
 
         $jobsRepoResponse = $jobs->findBy(
             array(), // Aucun critère de recherche supplémentaire, nous voulons tous les résultats
@@ -134,7 +138,10 @@ class JobController extends AbstractController
         $location = $request->query->get('location') ? $request->query->get('location') : null;
         $fulltime = $request->query->get('fulltime') ? 1 : null;
 
-        $offset = $request->query->get('offset') ? $request->query->get('offset') : 0;
+        //$offset = $request->query->get('offset') ? $request->query->get('offset') : 0;
+        $offsetString = $request->query->get('offset');
+        // Convert the offset string to an integer, providing a default value if it's not a valid integer
+        $offset = intval($offsetString);
 
         // Construction de la requête en fonction des filtres
         $queryBuilder = $jobs->createQueryBuilder('job');

@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -22,6 +23,11 @@ class UserCrudController extends AbstractCrudController
             //IdField::new('id'),
             TextField::new('email'),
             TextField::new('companyName'),
+            TextField::new('website'),
+
+            TextField::new('LogoUrl')
+                ->setFormType(FileUploadType::class)
+                ->onlyOnForms(),
         ];
     }
 }
