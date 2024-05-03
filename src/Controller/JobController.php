@@ -130,16 +130,9 @@ class JobController extends AbstractController
     public function jsonJobsSerach(JobRepository $jobs = null, Request $request): Response
     {
 
-
         $text = $request->query->get('text') ? '%' . $request->query->get('text') . '%' : null;
         $location = $request->query->get('location') ? $request->query->get('location') : null;
         $fulltime = $request->query->get('fulltime') ? 1 : null;
-
-        $filters = array();
-
-        $text ? $filters['position'] = $text : null;
-        $location ? $filters['location'] = $location : null;
-        $fulltime ? $filters['contract'] = 1 : null;
 
         $offset = $request->query->get('offset') ? $request->query->get('offset') : 0;
 
@@ -151,7 +144,7 @@ class JobController extends AbstractController
                 $queryBuilder->expr()->orX(
                     $queryBuilder->expr()->like('job.description', ':text'),
                     $queryBuilder->expr()->like('job.position', ':text'),
-                    $queryBuilder->expr()->like('user.CompanyName', ':text') // Ajout de la recherche dans 'company_name'
+                    $queryBuilder->expr()->like('user.CompanyName', ':text')
                 )
             )->setParameter('text', $text);
         }
@@ -164,7 +157,7 @@ class JobController extends AbstractController
                 ->setParameter('fulltime', $fulltime);
         }
 
-        // Comptage des résultats
+        // Comptage du total des résultats en base
         $jobsRepoResponseLength = count(
             $queryBuilder
                 ->setFirstResult(0)
