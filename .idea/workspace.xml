@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d82fda3f-8e60-4680-81e9-4c66701deb65" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-    </list>
+    <list default="true" id="d82fda3f-8e60-4680-81e9-4c66701deb65" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -209,6 +206,7 @@
       <workItem from="1714403373661" duration="368000" />
       <workItem from="1714403746277" duration="20000" />
       <workItem from="1714640888733" duration="43000" />
+      <workItem from="1714654565430" duration="10000" />
     </task>
     <servers />
   </component>
