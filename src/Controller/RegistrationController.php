@@ -28,10 +28,10 @@ class RegistrationController extends AbstractController
             /** @var UploadedFile $file */
             $file = $form->get("imageFile")->getData();
 
-            if($file !== null) {
+            if ($file !== null) {
                 //on recupere l'email et un algo pour remplacer le nom du fichier et qu'il soit unique//
-                $fileName = hash("sha1",$form->get("email")->getData()).".".$file->getClientOriginalExtension();
-                $file->move($this->getParameter("kernel.project_dir")."/public/uploads/files", $fileName);
+                $fileName = hash("sha1", $form->get("email")->getData()) . "." . $file->getClientOriginalExtension();
+                $file->move($this->getParameter("kernel.project_dir") . "/public/uploads/files", $fileName);
                 $user->setLogoUrl($fileName);
             }
 

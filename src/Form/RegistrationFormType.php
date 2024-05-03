@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use Symfony\Component\Validator\Constraints\File;
+
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -30,13 +32,24 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('company_name')
             ->add('website')
+            /*             ->add('imageFile', FileType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new Image(detectCorrupted: false)
+                ]
+            ]) */
             ->add('imageFile', FileType::class, [
                 'mapped' => false,
                 'constraints' => [
-                    new Image( detectCorrupted: true)
-                ]
+                    new File([
+                        'maxSize' => '1M',
+                        'mimeTypes' => [
+                            'image/svg+xml',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier SVG valide',
+                    ]),
+                ],
             ])
-
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -53,8 +66,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
