@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="description" content="
+		Job search application for for IT and web jobs.">
+	<meta name="keywords"
+		content="developer, senior, application, apply, job, expertise, full time, part time">
+	<link rel="icon" href="assets/img/favicon-32x32.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevJobs</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+    <body class="page">
+
+        <!-- ============ ACCESSIBILITY ============== -->
+        <div class="skip-links">
+            <!-- <a href="#light-dark-theme-toggle">Skip to toggle-switch</a> -->
+            <a href="#search-bar">Skip to search bar</a>
+            <a href="#main">Skip to job offers</a>
+        </div>
+
+        <!-- ============ HEADER ============== -->
+
+
+        <!-- <div class="darker"> -->                
+                <header >
+                    <div class="container">
+                        <div class="header-banner">
+                            
+                            <h1 class="logo">
+                                <a class="logo-link" href="index.html" aria-label="devjobs - Back to home" alt="">devjobs</a>
+                            </h1>
+                            
+                            <!-- ============ LIGHT / DARK MODES ============== -->
+                            <button role="switch" type="button" class="theme-toggle-div" id="light-dark-theme-toggle">
+                                <!-- <span class="screen-reader-text">Light to dark mode switch</span> -->
+                                <label class="light-mode" aria-label="light mode">
+                                    <img class="sun" src="assets/img/icon-sun.svg" alt="light-mode">
+                                </label>
+                                <div class="switch">
+                                    <input type="checkbox" class="theme-toggle"/>
+                                </div>
+                                <label class="dark-mode" aria-label="dark mode">
+                                    <img class="moon" src="assets/img/icon-moon.svg" alt="dark-mode">
+                                </label>
+                            </button>
+                        </div>
+                    </div>
+                        
+                    </header>
+                    
+                    <!-- ============ SEARCH BAR ============== -->
+                    
+             
+        <section>
+
+            <div class="container">
+                
+                <form class="form" role="search" action="#">
+                    <fieldset>
+                        <div class="layout">
+
+                            <div class="title-field grid-item" >
+                                <span aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="#5964E0" d="M17.112 15.059h-1.088l-.377-.377a8.814 8.814 0 0 0 2.15-5.784A8.898 8.898 0 0 0 8.898 0 8.898 8.898 0 0 0 0 8.898a8.898 8.898 0 0 0 8.898 8.899c2.211 0 4.23-.808 5.784-2.143l.377.377v1.081l6.845 6.832 2.04-2.04-6.832-6.845zm-8.214 0A6.16 6.16 0 1 1 8.9 2.737a6.16 6.16 0 0 1 0 12.322z"/>
+                                    </svg>
+                                </span>
+                                <input id="search-bar" class="input-title" type="search" name="title" id="title" placeholder="Filter by title, companies, expertise">
+                                <label for="title"></label>
+                        </div>
+
+                        <div class="overlay">
+                        <div class="filter-mobile filter-desktop" aria-expanded="false">
+                            <div class="location">
+                                <div class="location-field">
+                                    <label for="location"></label>
+                                    <span aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 24">
+                                            <path fill="#5964E0" d="M14.358 2.451A8.3 8.3 0 0 0 8.448 0a8.3 8.3 0 0 0-5.911 2.451c-2.922 2.925-3.285 8.427-.786 11.76l6.697 9.683 6.687-9.669c2.508-3.347 2.145-8.85-.777-11.774zm-5.833 8.894a3.057 3.057 0 0 1-3.051-3.054 3.057 3.057 0 0 1 3.05-3.055 3.057 3.057 0 0 1 3.052 3.055 3.057 3.057 0 0 1-3.051 3.054z"/>
+                                        </svg>
+                                    </span>
+                                    <input type="search" name="location" id="location" placeholder="Filter by location">
+                                </div>  
+                            </div>
+                            <div class="contract-type-checkbox">
+
+                                <div class="full-time-toggle">
+                                        <label class="checkbox" for="full-time">
+                                            
+                                            <input class="checkbox-input" type="checkbox" id="full-time">
+                                            
+                                            <svg class="checkbox-check" width="25" 
+                                            height="25">
+                                            <!-- <polyline points="20 6 9 17 4 12"></polyline> -->
+                                            <polyline points="21 7 10 18 5 13"></polyline>
+                                        </svg>
+                                        <span class="fulltime">Full Time</span> 
+                                        <span class="only">Only</span>
+                                    </label>
+                                </div> 
+                            </div>
+                            <div class="modal-search-btn event-btn">
+                                <button type="submit" class="primary-button btn1 pop-out-btn">Search</button> 
+                            </div>
+                    </div>
+                </div>   
+                    
+                    
+                    <div class="mobile-search-bar-buttons">
+                        <span class="screen-reader-text">Toggle menu</span>
+                        <button type="button" class="filter-button" aria-label="search by location only and/or full-time only">
+                            <svg class="filter-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path fill="currentColor" d="M19.108 0H.86a.86.86 0 0 0-.764.455.833.833 0 0 0 .068.884l6.685 9.202.007.01c.242.32.374.708.375 1.107v7.502a.825.825 0 0 0 .248.594.865.865 0 0 0 .942.18l3.756-1.4c.337-.1.56-.41.56-.784v-6.092c0-.399.132-.787.375-1.108l.007-.009 6.685-9.202c.19-.26.217-.6.068-.884A.86.86 0 0 0 19.108 0z"/>
+                            </svg>
+                        </button>
+                        
+                        <button class="submit-button" type="submit" aria-label="start searching for job offers">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path fill="#FFF" d="M17.112 15.059h-1.088l-.377-.377a8.814 8.814 0 0 0 2.15-5.784A8.898 8.898 0 0 0 8.898 0 8.898 8.898 0 0 0 0 8.898a8.898 8.898 0 0 0 8.898 8.899c2.211 0 4.23-.808 5.784-2.143l.377.377v1.081l6.845 6.832 2.04-2.04-6.832-6.845zm-8.214 0A6.16 6.16 0 1 1 8.9 2.737a6.16 6.16 0 0 1 0 12.322z"/>
+                            </svg>
+                        </button>  
+                    </div>
+                </div>
+                    </fieldset>
+                </form>          
+
+            </div>
+        </section> 
+        
+                <!-- ============ MAIN ============== -->
+
+    <main>
+        
+        <section id="main" tabindex="-1">
+            <div class="container job-list-container">
+                <p class="error-msg">No job offers available for this research.</p>
+                <!-- ============ JOB CARD ZONE ============== -->
+
+                    <ul class="job-list"></ul>
+                </div>
+                <!-- J'ajoute le loader ici alors qu'il ne sera pas utilisé, c'est pour éviter les erreurs dans bundle.js -->
+                <div role="alert" class="newtons-cradle">
+                    <div class="newtons-cradle__dot"></div>
+                    <div class="newtons-cradle__dot"></div>
+                    <div class="newtons-cradle__dot"></div>
+                    <div class="newtons-cradle__dot"></div>
+                </div>
+
+                <div class="load-more-div">
+                    <button type="button" class="primary-button btn1 load-more">
+                        Load More
+                    </button>
+                    <p class="message">All the available job offers have been displayed. </p>
+                </div>
+                
+            </section>        
+        </main>
+
+        <!--  <script src="./dist/bundle.min.js"></script>-->
+   <script src="./js/_themeSwitch.js"></script>
+    <script src="./js/_mobileSearchBar.js"></script>
+    <script src="./js/_timeStamp.js"></script>
+    <script src="./js/_api.js"></script> 
+    <script src="./js/_dom.js"></script>
+    <script src="./js/_domSearch.js"></script>
+    <script src="./js/_search.js"></script>
+    <script src="./js/_main.js"></script>
+</body>
+    </html>
+
+
+
+
+    <!-- https://oreillymedia.github.io/Using_SVG/extras/ch07-interactive-labels.html -->
