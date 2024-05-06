@@ -185,13 +185,4 @@ class Job
 
         return $this;
     }
-
-    /*     public function isAuthor(): ?bool
-    {
-        if ($this->user == $this->getUser()) {
-            return true;
-        } else {
-            return false;
-        }
-    } */
 }
