@@ -9,6 +9,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\FileUploadType;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+
+
+
 class UserCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -29,5 +35,13 @@ class UserCrudController extends AbstractCrudController
                 ->setFormType(FileUploadType::class)
                 ->onlyOnForms(),
         ];
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        // Configure certaines actions pour qu'elle nécessitent le rôle 'ROLE_ADMIN'
+        return $actions->setPermission(Action::EDIT, 'ROLE_ADMIN')
+            ->setPermission(Action::NEW, 'ROLE_ADMIN')
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN');
     }
 }

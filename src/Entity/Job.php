@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\JobRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 class Job
