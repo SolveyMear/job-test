@@ -30,7 +30,6 @@ class JobVoter extends Voter
             return false;
         }
 
-
         /**
          * @var Job $job
          */
@@ -49,7 +48,7 @@ class JobVoter extends Voter
                 break;
 
             case self::NEW:
-                return ($job->getUser() === $user || in_array("ROLE_ADMIN", $user->getRoles()));
+                return true;
                 break;
         }
 
