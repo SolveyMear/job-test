@@ -3,6 +3,13 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
+
+<div class="logo-on-forms">
+<a href="/">devjobs</a>
+</div>
+
+<div class="login-box">
+
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -12,7 +19,18 @@
         <div class="mb-3">
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
-    {% endif %}
+    {% else %}
+        <div class="mb-3">
+            No account ?
+            <a href="{{ path('app_register') }}">
+                  <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+            Register here !            
+            </a>
+        </div>
+
 
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail">Email</label>
@@ -33,5 +51,12 @@
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
     </button>
+
+    {% endif %}
+
 </form>
+
+
+
+</div>
 {% endblock %}
