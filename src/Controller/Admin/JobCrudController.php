@@ -86,7 +86,7 @@ class JobCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions->setPermission(Action::EDIT, JobVoter::EDIT)
-            ->setPermission(Action::NEW, JobVoter::NEW)
+            ->setPermission(Action::NEW, 'ROLE_USER')
             ->setPermission(Action::DELETE, JobVoter::DELETE);
     }
 }

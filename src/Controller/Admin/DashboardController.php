@@ -72,14 +72,14 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Job Test');
+            ->setTitle('Devjobs - admin panel');
     }
 
     public function configureMenuItems(): iterable
     {
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
-            MenuItem::linkToCrud('Utilisateurs', 'fa fa-tags', User::class)->setPermission('ROLE_ADMIN'),
+            MenuItem::linkToCrud('Companies', 'fa fa-tags', User::class)->setPermission('ROLE_ADMIN'),
         ];
     }
 }
