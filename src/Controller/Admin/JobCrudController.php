@@ -13,6 +13,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+
 class JobCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
@@ -37,4 +41,26 @@ class JobCrudController extends AbstractCrudController
         ];
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions->setPermission(Action::EDIT, 'ROLE_USER')
+            ->setPermission(Action::NEW, 'ROLE_ADMIN')
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN');
+        /*  ->setPermission(Action::DELETE, {
+                $job->isAuthor();
+            }); */
+    }
+
+
+    /* 
+    public function configureActions(Actions $actions): Actions
+    {
+        return parent::configureActions($actions)
+            ->update(Crud::PAGE_INDEX, Action::DELETE, static function (Action $action) {
+                $action->displayIf(static function (Job $job) {
+                    return $job->isAuthor();
+                })
+                
+            });
+    } */
 }

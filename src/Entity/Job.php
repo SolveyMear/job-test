@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\JobRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 class Job
@@ -185,4 +185,13 @@ class Job
 
         return $this;
     }
+
+    /*     public function isAuthor(): ?bool
+    {
+        if ($this->user == $this->getUser()) {
+            return true;
+        } else {
+            return false;
+        }
+    } */
 }

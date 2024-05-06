@@ -79,7 +79,7 @@ class DashboardController extends AbstractDashboardController
     {
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
-            MenuItem::linkToCrud('Utilisateurs', 'fa fa-tags', User::class),
+            MenuItem::linkToCrud('Utilisateurs', 'fa fa-tags', User::class)->setPermission('ROLE_ADMIN'),
         ];
     }
 }
