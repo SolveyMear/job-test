@@ -231,5 +231,30 @@ exemple :
                 "logoBackground" => $job->getUser()->getLogoBackground(),
                 "website" => $job->getUser()->getWebsite(),
 
-                
 
+Module d'upload :
+
+
+composer require vich/uploader-bundle
+(mettre yes)
+
+
+puis dans config/packages/vich_uploader.yaml or app/config/config.yml
+vich_uploader:
+    db_driver: orm
+
+    metadata:
+        type: attribute
+
+    mappings:
+        products:
+            uri_prefix: /images/products
+            upload_destination: '%kernel.project_dir%/public/images/products'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+
+
+Mettre à jour la class User pour y rajouter certaines des lignes données ici :
+https://github.com/dustin10/VichUploaderBundle/blob/master/docs/usage.md#step-2-link-the-upload-mapping-to-an-entity
+
+(ajouter les use, les #[Vich\Uploadable] )

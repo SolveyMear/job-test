@@ -54,6 +54,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $LogoUrl = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+
     public function __construct()
     {
         $this->Jobs = new ArrayCollection();
@@ -208,6 +212,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLogoUrl(?string $LogoUrl): static
     {
         $this->LogoUrl = $LogoUrl;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
