@@ -12,13 +12,12 @@ class JobVoter extends Voter
 {
     public const EDIT = 'JOB_EDIT';
     public const DELETE = 'JOB_DELETE';
-    public const NEW = 'JOB_NEW';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::DELETE, self::NEW])
+        return in_array($attribute, [self::EDIT, self::DELETE])
             && $subject instanceof \App\Entity\Job;
     }
 
@@ -30,7 +29,6 @@ class JobVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-
 
         /**
          * @var Job $job
@@ -46,10 +44,6 @@ class JobVoter extends Voter
                 break;
 
             case self::DELETE:
-                return ($job->getUser() === $user || in_array("ROLE_ADMIN", $user->getRoles()));
-                break;
-
-            case self::NEW:
                 return ($job->getUser() === $user || in_array("ROLE_ADMIN", $user->getRoles()));
                 break;
         }
