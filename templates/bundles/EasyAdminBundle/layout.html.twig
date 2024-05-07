@@ -5,11 +5,15 @@
 {# DO THIS: the '!' symbol tells Symfony to extend from the original template #}
 {% extends '@!EasyAdmin/layout.html.twig' %}
 
-{% block test %}
 
-<h1>TEST</h1>
+{% block body %}
 
-{% endblock %}
-{# % block sidebar % #}
-    {# ... #}
-{#% endblock % #}
+    <link rel="stylesheet" type="text/css" href="{{asset('/styles/header.css')}}"/>
+
+    <header class="devjobs-header">
+        <a href="/"><h1>devjobs</h1></a>
+    </header>
+    
+    {{ parent() }}
+
+{% endblock body %}

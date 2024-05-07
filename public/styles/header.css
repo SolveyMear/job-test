@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap");
+
+.devjobs-header {
+  padding: 2rem 5rem;
+  background: rgb(89, 100, 224);
+  background: url("/img/bg-pattern-header.svg");
+  background-size: 100%;
+  color: rgb(231, 231, 231);
+
+  a,
+  a:visited {
+    text-decoration: none;
+    color: white;
+    margin: 2rem auto;
+
+    h1 {
+      font-family: "Kumbh Sans", sans-serif;
+      display: flex;
+      font-size: 2rem;
+      font-weight: 700;
+      color: inherit;
+    }
+  }
+}
