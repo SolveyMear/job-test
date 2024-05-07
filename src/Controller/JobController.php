@@ -47,7 +47,7 @@ class JobController extends AbstractController
                 "contract" => $job->isContract() ? "Full Time" : "Part Time",
                 "description" => $job->getDescription(),
                 "id" => $job->getId(),
-                "location" => Countries::getName($job->getLocation()),
+                "location" => $job->getLocation(),
                 "position" => $job->getPosition(),
                 "postedAt" => ($job->getCreatedAt()->getTimestamp()) * 1000, //Le timestamp original de l'API devjobs est un timestamp Unix en secondes, tandis que le second timestamp "1708728585000" est en millisecondes, on multiplie donc par 1000.
                 "role" => [
@@ -104,7 +104,7 @@ class JobController extends AbstractController
                 "company" => $job->getUser()->getCompanyName(),
                 "contract" => $job->isContract() ? "Full Time" : "Part Time",
                 "id" => $job->getId(),
-                "location" => Countries::getName($job->getLocation()),
+                "location" => $job->getLocation(),
                 "logo" => $job->getUser()->getLogoUrl(),
                 "logoBackground" => $job->getUser()->getLogoBackground(),
                 "position" => $job->getPosition(),
@@ -190,7 +190,7 @@ class JobController extends AbstractController
                 "company" => $job->getUser()->getCompanyName(),
                 "contract" => $job->isContract() ? "Full Time" : "Part Time",
                 "id" => $job->getId(),
-                "location" => Countries::getName($job->getLocation()),
+                "location" => $job->getLocation(),
                 "logo" => $job->getUser()->getLogoUrl(),
                 "logoBackground" => $job->getUser()->getLogoBackground(),
                 "position" => $job->getPosition(),
@@ -215,7 +215,9 @@ class JobController extends AbstractController
         return $response;
     }
 }
-    
+
+
+
     /* Fin ajouts Cyril pour job id en en Json */
     
     // Suppression de toutes les routes qui suivent car on ne passera par aucune pour modifier les jobs : tout se fera avec easyadmin !
