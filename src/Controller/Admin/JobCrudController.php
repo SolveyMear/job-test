@@ -83,6 +83,11 @@ class JobCrudController extends AbstractCrudController
         ];
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setPageTitle('index', 'List of job offers');
+    }
+
     public function configureActions(Actions $actions): Actions
     {
         return $actions->setPermission(Action::EDIT, JobVoter::EDIT)
