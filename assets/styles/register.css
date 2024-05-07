@@ -38,6 +38,12 @@
   width: auto;
 }
 
+.login-box input[type="color"] {
+  padding: 0;
+  height: 2rem;
+  width: 2rem;
+}
+
 .login-box label {
   position: relative;
   top: 0;
