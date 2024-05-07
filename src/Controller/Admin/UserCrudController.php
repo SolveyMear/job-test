@@ -26,6 +26,7 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+
             //IdField::new('id'),
             TextField::new('email'),
             TextField::new('companyName'),
@@ -35,6 +36,11 @@ class UserCrudController extends AbstractCrudController
                 ->setFormType(FileUploadType::class)
                 ->onlyOnForms(),
         ];
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->setPageTitle('index', 'List of companies');
     }
 
     public function configureActions(Actions $actions): Actions
