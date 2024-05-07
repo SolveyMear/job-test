@@ -6,13 +6,14 @@ use App\Repository\JobRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Intl\Countries;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
 class Job
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -85,7 +86,7 @@ class Job
 
     public function setLocation(string $location): static
     {
-        $this->location = $location;
+        $this->location = Countries::getName($location);
 
         return $this;
     }

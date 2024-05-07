@@ -10,6 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -27,6 +28,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use App\Security\Voter\JobVoter;
+use DateTime;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -72,14 +74,13 @@ class JobCrudController extends AbstractCrudController
         return [
             TextField::new('position'),
             BooleanField::new('contract')->onlyOnForms(),
-            CountryField::new('location')->showFlag(false),
+            CountryField::new('location')->showFlag(false)->hideOnIndex(),
             TextareaField::new('requirementContent')->hideOnIndex(),
             ArrayField::new('requirements')->hideOnIndex(),
             TextareaField::new('roleContent')->hideOnIndex(),
             ArrayField::new('roles')->hideOnIndex(),
             TextareaField::new('description'),
             UrlField::new('apply'),
-
         ];
     }
 
@@ -88,5 +89,14 @@ class JobCrudController extends AbstractCrudController
         return $actions->setPermission(Action::EDIT, JobVoter::EDIT)
             ->setPermission(Action::NEW, 'ROLE_USER')
             ->setPermission(Action::DELETE, JobVoter::DELETE);
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $job = new Job();
+        $job->setUser($this->getUser());
+        $date = new DateTime();
+        $job->setCreatedAt($date);
+        return $job;
     }
 }
